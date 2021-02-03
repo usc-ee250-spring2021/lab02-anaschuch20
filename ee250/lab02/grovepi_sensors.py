@@ -16,8 +16,7 @@ performance. Because of this, you will not find this in the default directories.
 """
 import sys
 import time
-from RPLCD import CharLCD
-lcd = CharLCD(cols=16, rows=2, pin_rs=37, pin_e=35, pins_data=[40, 38, 36, 32, 33, 31, 29, 23])
+from grove_rgb_lcd import *
 # By appending the folder of all the GrovePi libraries to the system path here,
 # we are successfully `import grovepi`
 sys.path.append('../../Software/Python/')
@@ -33,43 +32,47 @@ be true"""
 if __name__ == '__main__':
     PORT = 4    # D4
 
-helper1 = 0
-helper2 = 0
+ #ARS to A0
+potentiometer = 0
+grovepi.pinMode(potentiometer,"INPUT")
+
+#USR to D4
+ultrasonic_ranger = 4
+
+#variables to hold threshold and distance data
 threshold = 0
 dist = 0;
-lcd.clear()
 
-class threshold_data(ADC):
-    def __init__(self, channel):
-        self.channel = channel
-        self.adc = ADC()
- 
-    @property
-    def value(self):
-        return self.adc.read(self.channel)
-
+def thres_data()
+  # Read sensor value from potentiometer
+  sensor_value = grovepi.analogRead(potentiometer)
+  return (sensor_value/10) #will go from 0.1 cm up to 51.2 cm
 
 def dist_data()
   # Read distance value from Ultrasonic
-  distant = ultrasonicRead(ultrasonic_ranger)
-  return distant
+  distance = grovepi.ultrasonicRead(ultrasonic_ranger)
+  return distance
 
+dist = dist_data()
+threshold = threshold_data()
+
+setRGB(0,255,0) #set color
+textCommand(0x01) # clear display
+textCommand(0x08 | 0x04) # display on, no cursor
+textCommand(0x28) # 2 lines
+
+
+
+if (dist <= threshold)
+  setText_norefresh("OBJ PRES")
+else 
+  setText_norefresh("        ")
+  
+ 
+  
     while True:
         #So we do not poll the sensors too quickly which may introduce noise,
         #sleep for a reasonable time of 200ms between each iteration
-        dist = dist_data()
-        threshold = threshold_data(ADC)
-        lcd.cursor_pos = (0,0)
-        lcd.write_string(dist_data())
-        lcd.cursor_pos = (1,0)
-        lcd.write_string(threshold_data())
-        if (dist == threshold):
-            lcd.cursor_pos = (0, 6)
-            lcd.write_string(u'OBJ PRES')
-        else if (dist > threshold):
-            lcd.cursor_pos = (0, 6)
-            lcd.write_string(u'        ')
-           
-          time.sleep(0.2)
+        time.sleep(0.2)
 
         print(grovepi.ultrasonicRead(PORT))
