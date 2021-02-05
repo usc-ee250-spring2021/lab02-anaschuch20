@@ -24,7 +24,6 @@ sys.path.append('../../Software/Python/')
 sys.path.append('../../Software/Python/grove_rgb_lcd')
 
 import grovepi
-from grove.adc import ADC
 
 """This if-statement checks if you are running this python file directly. That 
 is, if you run `python3 grovepi_sensors.py` in terminal, this if-statement will 
@@ -39,7 +38,14 @@ grovepi.pinMode(potentiometer,"INPUT")
 #USR to D4
 ultrasonic_ranger = 4
 
-#variables to hold threshold and distance data
+adc_ref = 5
+
+# Vcc of the grove interface is normally 5v
+grove_vcc = 5
+
+full_angle = 300
+
+""""#variables to hold threshold and distance data
 threshold = 0
 dist = 0;
 
@@ -58,20 +64,27 @@ threshold = threshold_data()
 
 setRGB(0,255,0) #set color
 textCommand(0x01) # clear display
-textCommand(0x08 | 0x04) # display on, no cursor
-textCommand(0x28) # 2 lines
-
-
 
 if (dist <= threshold)
   setText_norefresh("OBJ PRES")
 else 
   setText_norefresh("        ")
   
- 
+ """""
   
     while True:
-        #So we do not poll the sensors too quickly which may introduce noise,
+        
+        sensor_value = grovepi.analogRead(potentiometer)
+        buf=list("voltage: ", sensor_value)
+        setText("".join(buf))
+
+        """"# Calculate voltage
+        voltage = round((float)(sensor_value) * adc_ref / 1023, 2)
+
+        # Calculate rotation in degrees (0 to 300)
+        degrees = round((voltage * full_angle) / grove_vcc, 2)
+        
+        """"#So we do not poll the sensors too quickly which may introduce noise,
         #sleep for a reasonable time of 200ms between each iteration
         time.sleep(0.2)
 
