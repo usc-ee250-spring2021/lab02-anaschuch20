@@ -44,7 +44,7 @@ if __name__ == '__main__':
         
         distance = ultrasonicRead(ultrasonic_ranger)
         
-        print("sensor_value = %d distance = %.d %(threshold, distance))
+        print("sensor_value = %d distance = %.d" %(threshold, distance))
         
         """"if (distance <= threshold):
             setText(%d cm  OBJ PRESENT %.1f cm %(threshold, distance)
