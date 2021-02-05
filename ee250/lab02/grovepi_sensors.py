@@ -44,11 +44,13 @@ if __name__ == '__main__':
         
         distance = ultrasonicRead(ultrasonic_ranger)
         
-        if (distance <= threshold):
+        print("sensor_value = %d distance = %.d %(threshold, distance))
+        
+        """"if (distance <= threshold):
             setText(%d cm  OBJ PRESENT %.1f cm %(threshold, distance)
         else:
             setText(%d cm              %.1f cm %(threshold, distance) 
-        
+        """"
         #So we do not poll the sensors too quickly which may introduce noise,
         #sleep for a reasonable time of 200ms between each iteration.
         time.sleep(0.2)
