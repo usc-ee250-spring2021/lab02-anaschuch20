@@ -47,15 +47,15 @@ if __name__ == '__main__':
         
         if (distance <= threshold):
         	
-        	  setRGB(255,0,0)
+          setRGB(255,0,0)
         
-    		    setText("%dcm  OBJ PRES \n%.dcm" %(threshold, distance))
+          setText("%dcm  OBJ PRES \n%.dcm" %(threshold, distance))
     	
-    	  else:
+        else:
     		
-    		    setRGB(0,255,0)
+          setRGB(0,255,0)
     		
-    		    setText("%dcm  \n%.dcm" %(threshold, distance))
+          setText("%dcm  \n%.dcm" %(threshold, distance))
         
         print("sensor_value = %d distance = %.d" %(threshold, distance))
         
